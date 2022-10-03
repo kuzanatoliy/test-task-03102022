@@ -1,7 +1,14 @@
 import { uuidv4 } from "uuidv4";
 
 class Publisher {
+  #topic;
+  #isStoped = false;
   #subscribers = {};
+  #timerId = 1;
+
+  constructor(topic) {
+    this.#topic = topic;
+  }
 
   subscribe = (action) => {
     key = uuidv4();
@@ -9,8 +16,23 @@ class Publisher {
     () => delete this.#subscribers[key];
   };
 
+  stop(delay) {
+    this.#isStoped = true;
+    if (delay) {
+      setTimeout(() => this.run(), delay);
+    }
+  }
+
+  run() {
+    clearTimeout(this.#timerId);
+    this.#isStoped = false;
+  }
+
   push(message) {
-    Object.values(this.#subscribers).forEach((item) => item(message));
+    const localMessage = `${this.#topic}${localMessage}`;
+    if (!this.#isStoped) {
+      Object.values(this.#subscribers).forEach((item) => item(localMessage));
+    }
   }
 }
 
