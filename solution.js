@@ -29,7 +29,7 @@ class Publisher {
   }
 
   push(message) {
-    const localMessage = `${this.#topic}${localMessage}`;
+    const localMessage = `${this.#topic}${message}`;
     if (!this.#isStoped) {
       Object.values(this.#subscribers).forEach((item) => item(localMessage));
     }
